@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -maxnp
+ls -xamp 
