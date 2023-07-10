@@ -1,0 +1,2 @@
+#!/biin/bash
+uniq -u | sort _i
