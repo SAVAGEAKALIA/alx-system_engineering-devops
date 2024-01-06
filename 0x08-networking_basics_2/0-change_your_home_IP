@@ -3,5 +3,7 @@
 
 # Modify /etc/hosts to change IP resolutions
 #sudo sed -i 's/127.0.0.1/127.0.0.2/' /etc/hosts
-sudo sed -i 's/127.0.0.1\s*localhost/127.0.0.2	localhost/' /etc/hosts
+sudo cp /etc/hosts ~/hosts.new
+sudo sed -i 's/127.0.0.1\s*localhost/127.0.0.2	localhost/' ~/hosts.new
+sudo cp -f ~/hosts.new /etc/hosts
 sudo sh -c 'echo "8.8.8.8	facebook.com" >> /etc/hosts'
