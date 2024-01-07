@@ -1,24 +1,26 @@
 #!/usr/bin/env bash
-# This script is displaying "Best School" 10 times
+# This script displays numbers from 1 to 20 and shows specific messages for certain iterations using the while loop and case statement
 
-i=1
+counter=1
 
-while [ $i -ne 21 ]; do
- if [ "$i" -eq 4 ];
- then
-   echo "$i"
-   echo "bad luck from China"
- elif [ "$i" -eq 8 ];
- then
-   echo "$i"
-   echo "bad luck from Japan"
- elif [ "$i" -eq 17 ];
- then
-   echo "$i"
-   echo "bad luck from Italy"
- else
-   echo "$i"
- fi
-   ((i++))
+while [ $counter -le 20 ]; do
+    case $counter in
+        4)
+            echo "$counter
+bad luck from China"
+            ;;
+        9)
+            echo "$counter
+bad luck from Japan"
+            ;;
+        17)
+            echo "$counter
+bad luck from Italy"
+            ;;
+        *)
+            echo $counter
+            ;;
+    esac
+
+    ((counter++))
 done
-

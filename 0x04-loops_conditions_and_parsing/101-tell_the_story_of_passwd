@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # This script tells a story about each user in /etc/passwd using the while loop + IFS
 
 while IFS=':' read -r username x uid gid comment home shell; do

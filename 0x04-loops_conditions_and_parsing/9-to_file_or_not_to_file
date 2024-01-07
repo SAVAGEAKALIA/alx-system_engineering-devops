@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # This script gives information about the school file
 
 file_path="school"
