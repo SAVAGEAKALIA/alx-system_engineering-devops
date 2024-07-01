@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#script to create ssh key-pair with bit size and password
+#-t: type of key pair
+#-b: bit size of key or size of key
+#-f: where to store private key
+#-N: used to set password
+ssh-keygen -t rsa -b 4096 -f school -N "betty"
