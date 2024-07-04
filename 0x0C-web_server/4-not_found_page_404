@@ -4,9 +4,9 @@ apt-get -y update
 apt-get install -y nginx
 ufw allow 'Nginx HTTP'
 apt-get -y  install curl
-mkdir -p /var/www/html
-chown -R $USER:$USER /var/www
-chmod -R 755 /var/www
+#mkdir -p /var/www/html
+#chown -R $USER:$USER /var/www
+#chmod -R 755 /var/www
 
 
 # Create the HTML file
