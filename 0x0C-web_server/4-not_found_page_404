@@ -1,0 +1,36 @@
+#Script to set up 404 message
+apt-get -y update
+apt-get install -y nginx
+ufw allow 'Nginx HTTP'
+apt-get -y  install curl
+mkdir -p /var/www/html
+chown -R $USER:$USER /var/www
+chmod -R 755 /var/www
+
+
+# Create the HTML file
+
+echo "Ceci n'est pas une page" > /var/www/html/Custom_404.html
+
+# make back up of default config file
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+
+# Use the sed command to append to file
+
+#sed -i '/location \/ }/a \\n       location \/redirect_me {\n        return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n    }\n'  /etc/nginx/sites-available/default
+
+
+#sed -i '/server_name _;/a \\n       location \/redirect_me {\n               return 404 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n      }\n' /etc/nginx/sites-available/default
+
+sed -i '/server_name _;/a \\n        error_page 404 \/Custom_404.html;\n        location = \/Custom_404.html {\n        internal;\n      }\n' /etc/nginx/sites-available/default
+
+
+# Restart Nginx to apply changes (without using systemctl)
+nginx -s reload
+
+# Ensure Nginx is running
+service nginx start
+
+# Output the status of the Nginx service
+service nginx status
