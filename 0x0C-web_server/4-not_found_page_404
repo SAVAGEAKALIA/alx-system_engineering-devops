@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #Script to set up 404 message
 apt-get -y update
 apt-get install -y nginx
