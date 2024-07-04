@@ -1,27 +1,33 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 # Script to configure nginix server
-sudo apt-get update
-sudo apt-get install -y nginx
-sudo ufw allow 'Nginx HTTP'
-sudo apt-get install curl
-sudo mkdir -p /var/www/html
-sudo chown -R $USER:$USER /var/www
-sudo chmod -R 755 /var/www
+#cd "~"
+apt-get -y update
+apt-get install -y nginx
+ufw allow 'Nginx HTTP'
+apt-get -y  install curl
+mkdir -p /var/www/html
+chown -R $USER:$USER /var/www
+chmod -R 755 /var/www
 # Create the HTML file
-echo "<html>
-  <head>
-    <title>Welcome to nginx!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-  </body>
-</html>" | sudo tee /var/www/html/index.html
+#echo "<html>
+#  <head>
+#    <title>Welcome to nginx!</title>
+#  </head>
+#  <body>
+#    <h1>Hello World!</h1>
+#  </body>
+#</html>" > /var/www/html/index.html
+
+echo "Hello World!" > /var/www/html/index.html
+
+
+# | sudo tee /var/www/html/index.html
 
 # Restart Nginx to apply changes (without using systemctl)
-sudo nginx -s reload
+nginx -s reload
 
 # Ensure Nginx is running
-sudo service nginx start
+service nginx start
 
 # Output the status of the Nginx service
-sudo service nginx status
+service nginx status
