@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Configuring load Balncer
+apt-get install --no-install-recommends software-properties-common
+add-apt-repository ppa:vbernat/haproxy-3.0
+apt-get install haproxy=3.0.\*
+
+cp /etc/haproxy/haproxy.cfg cp /etc/haproxy/haproxy.cfg.backup
+
+echo "frontend http \\n\\\tbind *:80\\n\\\tmode http\\n\\n\\n\\\tdefault_backend web-backend\n" >> /etc/haproxy/haproxy.cfg
+echo "backend web-backend \\n\\\tbalance roundrobin\n\\tserver web-01 54.160.101.222:80 check\n\\tserver web-02 100.25.205.48:80 check\n"
+
+sudo systemctl enable haproxy
+sudo systemctl start haproxy
+
+# Verify HAProxy status
+sudo systemctl status haproxy
