@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Script to modify custom header
+
+apt-get -y update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+apt-get -y install curl
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.websever2
+HOST=$(hostname)
+sed -i "/server_name _;/a \\\tadd_header X-Served-By $HOST;\n" /etc/nginx/sites-available/default
+#sed -i "/server_name _;/a \\\tadd_header X-Served-By $HOST;" /etc/nginx/sites-available/default
+nginx -s  reload
+service nginx start
+service nginx status
+
