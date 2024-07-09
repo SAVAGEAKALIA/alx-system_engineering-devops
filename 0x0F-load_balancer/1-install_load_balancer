@@ -2,8 +2,8 @@
 # Configuring load Balncer
 sudo apt-get update
 apt-get -y install --no-install-recommends software-properties-common
-add-apt-repository ppa:vbernat/haproxy-3.0
-apt-get -y install haproxy=3.0.\*
+add-apt-repository ppa:vbernat/haproxy-2.9
+apt-get -y install haproxy=2.9.\*
 
 cp /etc/haproxy/haproxy.cfg cp /etc/haproxy/haproxy.cfg.backup."$(date +%Y%m%d%H%M%S)"
 
