@@ -5,7 +5,7 @@ apt-get -y install --no-install-recommends software-properties-common
 add-apt-repository ppa:vbernat/haproxy-2.9
 apt-get -y install haproxy=2.9.\*
 
-cp /etc/haproxy/haproxy.cfg cp /etc/haproxy/haproxy.cfg.backup."$(date +%Y%m%d%H%M%S)"
+cp /etc/haproxy/haproxy.cfg cp /etc/haproxy/haproxy.cfg_backup."$(date +%Y%m%d%H%M%S)"
 
 # echo "frontend http \\n\\\tbind *:80\\n\\\tmode http\\n\\n\\n\\\tdefault_backend web-backend\n" >> /etc/haproxy/haproxy.cfg
 # echo "backend web-backend \\n\\\tbalance roundrobin\n\\tserver web-01 54.160.101.222:80 check\n\\tserver web-02 100.25.205.48:80 check\n"
@@ -19,8 +19,8 @@ frontend http
 
 backend web-backend
     balance roundrobin
-    server web-01 54.160.101.222:80 check
-    server web-02 100.25.205.48:80 check
+    server 220602-web-01 54.160.101.222:80 check
+    server 220602-web-02 100.25.205.48:80 check
 EOL
 
 

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+apt-get -y update
+apt-get -y install nginx
+apt-get -y install curl
+ufw allow "Nginx HTTP"
+chown -R $USER:$USER /var/www
+chmod -R 755 /var/www
+# add string hello to index.html
+echo "Hello World!" > /var/www/html/index.html
+
+# add a redirection page
+echo "Ceci n'est pas une page" > /var/www/html/Custom_404.html
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+sed -i '/server_name _;/a \\n\t\tlocation \/redirect_me {\n\t\treturn 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n\t\t}\n' /etc/nginx/sites-available/default
+
+sed -i '/server_name _;/a \\n\t\terror_page 404 \/Custom_404.html;\n\t\tlocation =\/Custom_404.html {\n\t\tinternal;\n\t\t}\n' /etc/nginx/sites-available/default
+
+
+#sed -i '/server_name _;/a \\n       location \/redirect_me {\n               return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n      }\n' test #/etc/nginx/sites-available/default
+
+
+#sed -i '/server_name _;/a \\n        error_page 404 \/Custom_404.html;\n        location = \/Custom_404.html {\n        internal;\n      }\n' test #/etc/nginx/sites-available/default
+
+# Test for Synthax error
+nginx -t
+
+# Reload Nginx
+nginx -s reload
+
+# Start Nginx
+service nginx start
+
+# Nginx Status
+service nginx status
