@@ -1,47 +1,22 @@
-# Puppet file to automate the process
-package {'haproxy':
-      ensure => 'installed',
-}
-package {'nginx':
-      ensure => 'installed',
-}
+# 2-puppet_custom_http_response_header.pp
 
-service { 'nginx':
-  ensure    => running,
-  enable    => true,
-  subscribe => File['/etc/nginx/sites-available/default'],
+# Ensure Nginx is installed
+package { 'nginx':
+  ensure => installed,
 }
 
-
-# Create the template for the Nginx configuration file
-file { 'default.erb':
-  ensure  => file,
-  content => 'server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    root /var/www/html;
-    index index.html index.htm;
-
-    server_name _;
-    
-    add_header X-Served-By $hostname;
-
-    location / {
-        try_files $uri $uri/ =404;
-     
-    }
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-}',
-  require => Package['nginx'],
-}
-
-file { '/etc/nginx/sites-available/default':
-  ensure  => file,
-  content => 'default.erb',
+# Ensure the add_header directive is added to the Nginx configuration
+exec { 'add_custom_header':
+  command => 'sed -i "/location \//a \\        add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default',
+  unless  => 'grep -q "add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default',
   require => Package['nginx'],
   notify  => Service['nginx'],
 }
+
+# Ensure the Nginx service is running and enabled
+service { 'nginx':
+  ensure     => running,
+  enable     => true,
+  subscribe  => Exec['add_custom_header'],
+}
+
