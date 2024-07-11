@@ -7,9 +7,9 @@ package { 'nginx':
 
 # Ensure the add_header directive is added to the Nginx configuration
 exec { 'add_custom_header':
-  #command => '/bin/sed -i "/location \//a \\        add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default',
-  command => '/bin/sed -i "/server_name _;/a \\        add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default',
-  unless  => '/bin/grep -q "add_header X-Served-By $hostname;" /etc/nginx/sites-available/default',
+  command => '/bin/sed -i "/location \//a \\            add_header X-Served-By $(hostname);" /etc/nginx/sites-available/default',
+  #command => '/bin/sed -i "/server_name _;/a \\        add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default',
+  unless  => '/bin/grep -q "add_header X-Served-By $(hostname);" /etc/nginx/sites-available/default',
   require => Package['nginx'],
   notify  => Service['nginx'],
 }
