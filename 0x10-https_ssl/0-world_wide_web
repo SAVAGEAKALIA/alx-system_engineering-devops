@@ -17,10 +17,8 @@ dom_func() {
 
   if [ -z "$subdomain" ]
   then 
-    # echo "subdomain empty but not required"
     subs="www lb-01 web-01 web-02"
   else 
-    echo "Subdomain is not empty"
     subs=$subdomain
   fi
 
