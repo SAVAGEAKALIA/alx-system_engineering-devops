@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Script to check if Ip address have beeen correctly matched to A name
+domain=$1
+subdomain=$2
+
+
+dom_func() {
+
+  #local domain=$1
+  #local subdomain=$2
+
+  if [ -z "$domain" ]
+  then
+    # echo "Domain cannot be Empty"
+    return 0
+    fi
+
+  if [ -z "$subdomain" ]
+  then 
+    # echo "subdomain empty but not required"
+    subs="www web-01 web-02 lb-01"
+  else 
+    echo "Subdomain is not empty"
+    subs=$subdomain
+  fi
+
+
+  for sub in $subs; do 
+    details=$(dig "$sub.$domain" | awk '/ANSWER SECTION:/ {getline; print}')    
+    # echo "$details"
+    command_A=$(echo "$details" | awk '{print $4}')
+    command_IP=$(echo "$details" | awk '{print $5}')
+    echo "The subdomain $sub is a $command_A record and points to $command_IP"
+  done
+
+}
+# shellcheck disable=SC2086
+dom_func $1 $2
+

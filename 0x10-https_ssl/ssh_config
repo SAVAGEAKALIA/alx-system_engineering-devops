@@ -1,0 +1,16 @@
+      Host web1
+        	HostName 54.160.101.222
+        	User ubuntu
+       		IdentityFile ~/.ssh/school
+		PasswordAuthentication no
+
+      Host web2
+		Hostname 100.25.205.48
+		User ubuntu
+		IdentityFile ~/.ssh/school
+		PasswordAuthentication no
+      Host lb 
+                Hostname 54.172.175.30
+                User ubuntu
+                IdentityFile ~/.ssh/school
+                PasswordAuthentication no
