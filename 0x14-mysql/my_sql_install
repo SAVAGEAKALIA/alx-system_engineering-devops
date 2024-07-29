@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# script to automate installation of mysql
+sudo apt update -y
+# Verify installation
+if mysql --version | grep -q "8.0"; then
+    echo "MySQL 8.0 installation Present"
+else
+    echo "MySQL 8.0 installation not present"
+    sudo apt install mysql-server
+fi
+sudo systemctl start mysql.service
+sudo systemctl enable mysql
+# sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';"
+# sudo mysql -e "exit"
+# sudo mysql_secure_installation
+sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH auth_socket;"
+mysql --version
+# Verify installation
+if mysql --version | grep -q "8.0"; then
+    echo "MySQL 8.0 installation complete"
+else
+    echo "MySQL 8.0 installation failed"
+fi
