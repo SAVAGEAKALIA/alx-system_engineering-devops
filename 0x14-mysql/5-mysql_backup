@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Script to creat msql dump file and compress it
+if [ $# -eq 0 ]; then
+  echo "Please Provide Msqlpassword"
+  exit 1
+fi
+
+PASSWORD="$1"
+DUMP_FILE="backup.sql"
+DATE=$(date +"%d-%m-%Y")
+ARCHIVE_FILENAME="${DATE}.tar.gz"
+
+
+sudo mysqldump -u root -p"${PASSWORD}" --all-databases  > "${DUMP_FILE}"
+
+if [ $? -eq 0 ]; then
+  echo "MySQL dump created successfully."
+else
+  echo "Error creating MySQL dump."
+  exit 1
+fi
+
+tar -czvf  "${ARCHIVE_FILENAME}" "${DUMP_FILE}"
+
+if [ $? -eq 0 ]; then
+  echo "Compress successful."
+else
+  echo "Error creatin taz archive."
+  exit 1
+fi
