@@ -6,25 +6,25 @@ if [ $# -eq 0 ]; then
 fi
 
 PASSWORD="$1"
-DUMP_FILE="backup.sql"
+# DUMP_FILE="backup.sql"
 DATE=$(date +"%d-%m-%Y")
 ARCHIVE_FILENAME="${DATE}.tar.gz"
 
 
-sudo mysqldump -u root -p"${PASSWORD}" --all-databases  > "${DUMP_FILE}"
+sudo mysqldump -u root -p"${PASSWORD}" --all-databases  > backup.sql
 
-if [ $? -eq 0 ]; then
-  echo "MySQL dump created successfully."
-else
-  echo "Error creating MySQL dump."
-  exit 1
-fi
+# if [ $? -eq 0 ]; then
+  # echo "MySQL dump created successfully."
+# else
+  # echo "Error creating MySQL dump."
+  # exit 1
+# fi
 
-tar -czvf  "${ARCHIVE_FILENAME}" "${DUMP_FILE}"
+tar -czvf  ${ARCHIVE_FILENAME} backup.sql
 
-if [ $? -eq 0 ]; then
-  echo "Compress successful."
-else
-  echo "Error creatin taz archive."
-  exit 1
-fi
+# if [ $? -eq 0 ]; then
+  # echo "Compress successful."
+# else
+  # echo "Error creatin taz archive."
+  # exit 1
+# fi
