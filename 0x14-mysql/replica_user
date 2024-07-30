@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Script to create user and grant permissions
+sudo mysql -e "
+CREATE 'replica_user'@'%' IDENTIFIED BY 'alx';
+GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'replica_user'@'%';
+GRANT SELECT ON mysql.user TO 'holberton_user'@'localhost';
+"
