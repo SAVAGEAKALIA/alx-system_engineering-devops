@@ -1,0 +1,39 @@
+Postmortem: AI Blog Generator Outage
+
+Issue Summary:
+Duration:
+The outage lasted from 10:00 AM to 11:15 AM (PST) on August 10, 2024.
+Impact:
+During the outage, the AI Blog Generator service was completely down, preventing all users from generating and viewing blog posts. This impacted 100% of active users, who encountered a "500 Internal Server Error" message when attempting to access the service.
+Root Cause:
+The root cause of the outage was an unhandled exception in the Flask application triggered by a mismatch between the GPT-2 model's expected input format and the data type passed by the SQLite database.
+
+Timeline:
+10:00 AM: Issue detected by automated monitoring, which alerted the on-call engineer to a spike in error rates.
+10:02 AM: On-call engineer started investigating the error logs and found that all incoming requests to the Flask application were returning a "500 Internal Server Error."
+10:10 AM: Initial assumption was that the issue was related to a recent change in the GPT-2 model configuration. This led to a rollback of the model to its previous version.
+10:25 AM: Rollback completed, but the issue persisted, indicating that the problem was not with the model configuration.
+10:30 AM: Further investigation into the error logs revealed that the Flask application was crashing due to an unhandled exception when processing input data.
+10:40 AM: The root cause was identified as a type mismatch in the data being passed from the SQLite database to the GPT-2 model. Specifically, the model expected text data, but received a null value due to an improperly handled empty database query.
+10:50 AM: The incident was escalated to the development team for a code fix.
+11:05 AM: A patch was implemented to handle null values correctly and ensure that the GPT-2 model received valid text data.
+11:10 AM: The Flask application was restarted with the patch applied.
+11:15 AM: Service fully restored, and users were able to generate and view blog posts without errors.
+
+Root Cause and Resolution:
+The outage was caused by an unhandled exception in the Flask application. When a user attempted to generate a blog post, the application retrieved a prompt from the SQLite database. However, if the database query returned a null value (due to an empty or improperly formatted prompt), the GPT-2 model received an unexpected input type, causing the Flask application to crash with a "500 Internal Server Error."
+To resolve the issue, the development team implemented a patch that checks for null values before passing data to the GPT-2 model. If a null value is detected, the application now returns a user-friendly error message, prompting the user to provide a valid input. This prevents the application from crashing and ensures smooth operation.
+
+Corrective and Preventative Measures:
+Improvements:
+Input Validation: Implement comprehensive input validation to ensure that all data passed to the GPT-2 model is correctly formatted and non-null.
+Error Handling: Enhance error handling in the Flask application to gracefully handle exceptions and provide informative error messages to users.
+Monitoring: Improve monitoring to detect specific types of errors (such as type mismatches) earlier in the process.
+Tasks:
+Patch Nginx Server: Apply a patch to the Nginx server to handle unexpected traffic spikes better.
+Add Monitoring on Server Memory: Implement additional monitoring on server memory to detect potential resource exhaustion.
+Unit Tests: Develop unit tests for all Flask routes to catch potential input-related issues during development.
+Database Maintenance: Regularly audit and maintain the SQLite database to ensure data integrity and prevent null values from being stored.
+User Input Guidelines: Update user guidelines to provide clearer instructions on valid input formats for generating blog posts.
+
+This postmortem aims to document the issue thoroughly, ensuring that similar outages are prevented in the future by implementing the recommended corrective and preventative measures.
