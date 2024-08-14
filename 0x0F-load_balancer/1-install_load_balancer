@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Configuring load Balncer
+# Configuring load Balancer
 sudo apt-get -y update
 sudo apt-get -y install haproxy
 sudo chown $USER:$USER /etc/haproxy/haproxy.cfg 
