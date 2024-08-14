@@ -4,8 +4,8 @@ import requests
 # import json
 
 
-def number_of_subscribers(subreddit):
-    """Return total number of subscribers"""
+def top_ten(subreddit):
+    """Returns the Title of top 10 hot post"""
     # print(subreddit)
     url = "https://www.reddit.com/r/"
     headers = {"User-Agent": "0-subs-script/0.1"}
