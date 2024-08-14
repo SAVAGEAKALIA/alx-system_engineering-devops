@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Api implementation using Reddit"""
+"""Api implementation using Reddit top 10 posts"""
 import requests
 # import json
 

@@ -12,12 +12,16 @@ def top_ten(subreddit):
     req = requests.get(f'{url}{subreddit}/hot.json',
                        headers=headers, allow_redirects=False)
     content_type = req.headers.get('Content-Type', '')
-    print(content_type)
+    # print(content_type)
     # print(req.json())
-    # print(json.dumps(req.json(), indent=4))
+    #print(json.dumps(req.json(), indent=4))
     posts = req.json()
-    for post in posts['data']['children'][:10]:
-        print(f'{post["data"]["title"]}')
+    # for post in posts['data']['children'][:10]:
+    #     print(f'{post["data"]["title"]}')
+    article = posts.get('data', {})
+    article = article['children'][:3]
+    article = article[2].get('data', {}).get('article')
+    print(json.dumps(article, indent=4))
 
 
 if __name__ == '__main__':
