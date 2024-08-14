@@ -4,7 +4,7 @@ import requests
 # import json
 
 
-def top_ten(subreddit):
+def number_of_subscribers(subreddit):
     """Returns the Title of top 10 hot post"""
     # print(subreddit)
     url = "https://www.reddit.com/r/"
