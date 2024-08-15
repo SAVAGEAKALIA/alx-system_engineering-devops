@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+cat > dashboard_id <<EOF
+curl -X GET "https://api.datadoghq.com/api/v1/dashboard/id" \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-H "DD-API-KEY: ${95eb2a9904b69057a4b0407e661de7b2}" \
+-H "DD-APPLICATION-KEY: ${95eb2a9904b69057a4b0407e661de7b2}
+EOF
+
+cat dashboard_id
