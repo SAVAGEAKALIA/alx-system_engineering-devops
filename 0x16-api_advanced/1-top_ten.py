@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Api implementation using Reddit top 10 posts"""
 import requests
-# import json
 
 
 def top_ten(subreddit):
@@ -13,22 +12,18 @@ def top_ten(subreddit):
     req = requests.get(f'{url}{subreddit}/hot.json',
                        headers=headers, params=payload, allow_redirects=False)
     content_type = req.headers.get('Content-Type', '')
-    # print(content_type)
-    # print(req.json())
-    # print(json.dumps(req.json(), indent=4))
+
     if 'application/json' in content_type:
         try:
-            # data = dir(req)
-            # print(data)
             if req.status_code == 200:
                 posts = req.json()
                 for post in posts['data']['children']:
                     print(f'{post["data"]["title"]}')
             else:
                 # print(f"Error: status code {req.status_code}")
-                print("None")
+                return None
         except Exception as e:
             print(f"Error: {e}")
     else:
         # print("Error: not in json format")
-        print("None")
+        return None
