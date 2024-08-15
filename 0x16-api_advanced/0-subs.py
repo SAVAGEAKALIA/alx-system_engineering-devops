@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Api implementation using Reddit"""
 import requests
-# import json
 
 
 def number_of_subscribers(subreddit):
@@ -12,13 +11,9 @@ def number_of_subscribers(subreddit):
     req = requests.get(f'{url}{subreddit}/about.json',
                        headers=headers, allow_redirects=False)
     content_type = req.headers.get('Content-Type', '')
-    # print(content_type)
-    # print(req.json())
-    # print(json.dumps(req.json(), indent=4))
+
     if 'application/json' in content_type:
         try:
-            # data = dir(req)
-            # print(data)
             if req.status_code == 200:
                 data = req.json()
                 count = data['data']['subscribers']
@@ -32,7 +27,3 @@ def number_of_subscribers(subreddit):
     else:
         # print("Error: not in json format")
         return 0
-
-
-# if __name__ == '__main__':
-#     number_of_subscribers('programming')
