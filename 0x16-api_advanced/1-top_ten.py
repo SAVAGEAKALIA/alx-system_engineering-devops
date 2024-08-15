@@ -6,27 +6,17 @@ import requests
 def top_ten(subreddit):
     """Returns the Title of top 10 hot post"""
     # print(subreddit)
-    url = "https://www.reddit.com/r/"
+    ur = "https://www.reddit.com/r/"
+    url = f"{ur}{subreddit}/hot.json"
     payload = {'limit': 10}
     headers = {"User-Agent": "0-subs-script/0.1"}
-    req = requests.get(f'{url}{subreddit}/hot.json',
-                       headers=headers, params=payload, allow_redirects=False)
-    content_type = req.headers.get('Content-Type', '')
+    req = requests.get(url,
+                       headers=headers, params=payload,
+                       allow_redirects=False)
 
-    try:
-        if 'application/json' in content_type:
-            try:
-                if req.status_code == 200:
-                    posts = req.json()
-                    for post in posts['data']['children']:
-                        print(f'{post["data"]["title"]}')
-                else:
-                    # print(f"Error: status code {req.status_code}")
-                    print("None")
-            except Exception:
-                print("None")
-        else:
-            # print("Error: not in json format")
-            print("None")
-    except Exception:
-        print("None")
+    if req.status_code != 200:
+        return None
+
+    posts = req.json()
+    for post in posts['data']['children']:
+        print(f'{post["data"]["title"]}')
