@@ -20,7 +20,9 @@ def number_of_subscribers(subreddit):
             # data = dir(req)
             # print(data)
             if req.status_code == 200:
-                return int(req.json()['data']['subscribers'])
+                count = req.json()['data']['subscribers']
+                # print(type(count))
+                return count
             else:
                 # print(f"Error: status code {req.status_code}")
                 return 0
