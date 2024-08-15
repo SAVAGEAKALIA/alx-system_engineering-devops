@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Api implementation using Reddit top 10 posts"""
 import requests
+import json
 
 
 def top_ten(subreddit):
@@ -9,21 +10,20 @@ def top_ten(subreddit):
     url = "https://www.reddit.com/r/"
     payload = {'limit': 10}
     headers = {"User-Agent": "0-subs-script/0.1"}
-    req = requests.get(f'{url}{subreddit}/hot.json',
-                       headers=headers, params=payload, allow_redirects=False)
-    content_type = req.headers.get('Content-Type', '')
 
-    if 'application/json' in content_type:
-        try:
-            if req.status_code == 200:
-                posts = req.json()
-                for post in posts['data']['children']:
-                    print(f'{post["data"]["title"]}')
-            else:
-                # print(f"Error: status code {req.status_code}")
-                return None
-        except Exception as e:
-            print(f"Error: {e}")
-    else:
-        # print("Error: not in json format")
-        return None
+    try:
+        req = requests.get(f'{url}{subreddit}/hot.json',
+                           headers=headers, params=payload, allow_redirects=False)
+
+        if req.headers.get('Content-Type', '').startswith('application/json'):
+            try:
+                req_json = req.json()
+                posts = req_json['data']['children']
+                for post in posts[:10]:
+                    print(post['data']['title'])
+            except json.JSONDecodeError:
+                print("None")
+        else:
+            print("None")
+    except requests.RequestException as e:
+        print(f"Request Error: {e}")
