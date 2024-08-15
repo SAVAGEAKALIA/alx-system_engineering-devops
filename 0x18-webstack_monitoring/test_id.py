@@ -2,6 +2,7 @@
 
 import requests
 import json
+import os
 
 
 def main():
@@ -9,8 +10,8 @@ def main():
     headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'DD-API-KEY': '95eb2a9904b69057a4b0407e661de7b2',
-        'DD-APPLICATION-KEY': '84818b95e3bb916b2e36cc736273a982e7d80529'
+        'DD-API-KEY': os.getenv('DD-API-KEY'),
+        'DD-APPLICATION-KEY': os.getenv('DD-APPLICATION-KEY')
     }
 
     req = requests.get(url, headers=headers, allow_redirects=False)
