@@ -6,9 +6,9 @@ $ulimit_new = 'ULIMIT="-n 4096"'
 exec {'increase_request_limit':
         provider => shell,
         command  => "sudo sed -i 's/${ulimit_old}/${ulimit_new}/' ${nginx_config_file}",
-        before   => Exec['reload'],
-        onlyif   => 'test -f /etc/default/nginx'
+        onlyif   => 'test -f /etc/default/nginx',
         path     => ['/bin', '/usr/bin', '/usr/local/bin'],
+        before   => Exec['reload'],
 }
 
 exec {'reload':
