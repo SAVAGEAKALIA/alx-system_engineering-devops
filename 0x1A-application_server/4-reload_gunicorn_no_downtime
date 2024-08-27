@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Define the Gunicorn process name or the command used to run it
 PROCESS_NAME="gunicorn"
 
@@ -17,6 +16,7 @@ echo "Reloading Gunicorn (PID: $MASTER_PID)..."
 kill -HUP "$MASTER_PID"
 
 # Confirm the reload action
+# shellcheck disable=SC2181
 if [ $? -eq 0 ]; then
     echo "Gunicorn reloaded successfully."
 else
