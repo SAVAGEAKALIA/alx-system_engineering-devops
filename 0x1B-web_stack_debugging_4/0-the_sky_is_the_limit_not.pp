@@ -1,6 +1,6 @@
 # Fix high amount of requests problems
 $nginx_config_file = '/etc/default/nginx'
-$ulimit_old = 'ULIMIT="-n [0-9]*"'
+$ulimit_old = 'ULIMIT="-n 15"'
 $ulimit_new = 'ULIMIT="-n 65535"'
 
 exec {'increase_request_limit':
