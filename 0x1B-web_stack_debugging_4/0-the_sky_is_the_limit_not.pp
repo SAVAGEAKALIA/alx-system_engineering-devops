@@ -2,6 +2,8 @@
 $nginx_config_file = '/etc/default/nginx'
 $ulimit_old = 'ULIMIT="-n [0-9]*"'
 $ulimit_new = 'ULIMIT="-n 65535"'
+$worker_num_old ='worker_connections [0-9]*'
+$worker_num_new = 'worker_connections 8192'
 
 exec {'increase_request_limit':
         provider => shell,
@@ -9,6 +11,14 @@ exec {'increase_request_limit':
         onlyif   => 'test -f /etc/default/nginx',
         path     => ['/bin', '/usr/bin', '/usr/local/bin'],
         before   => Exec['reload'],
+}
+
+exec { 'increase_worker_connections':
+  provider => shell,
+  command  => "sed -i 's/${worker_num_old}/${worker_num_new}/' ${nginx_config_file}",
+  onlyif   => 'test -f /etc/nginx/nginx.conf',
+  path     => ['/bin', '/usr/bin', '/usr/local/bin'],
+  before   => Exec['reload'],
 }
 
 exec {'reload':
