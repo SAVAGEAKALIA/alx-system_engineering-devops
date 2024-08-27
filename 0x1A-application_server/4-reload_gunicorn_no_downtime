@@ -14,4 +14,12 @@ MASTER_PID=$(pgrep -f "$PROCESS_NAME" | head -n 1)
 # Reload Gunicorn by sending SIGHUP signal to the master process
 # echo "Reloading Gunicorn (PID: $MASTER_PID)..."
 kill -HUP "$MASTER_PID"
-echo "Ok"
+
+# shellcheck disable=SC2181
+if [ $? -eq 0 ]; then
+    # echo "Gunicorn reloaded successfully."
+    exit 0
+else
+    echo "Failed to reload Gunicorn."
+    exit 1
+fi
