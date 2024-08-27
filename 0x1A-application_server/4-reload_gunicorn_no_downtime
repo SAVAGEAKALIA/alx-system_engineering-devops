@@ -18,7 +18,7 @@ kill -HUP "$MASTER_PID"
 # shellcheck disable=SC2181
 if [ $? -eq 0 ]; then
     # echo "Gunicorn reloaded successfully."
-    return 0
+    echo "OK"
 else
     echo "Failed to reload Gunicorn."
     exit 1
