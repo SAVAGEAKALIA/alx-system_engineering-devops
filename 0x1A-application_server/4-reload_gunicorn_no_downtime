@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Define the Gunicorn process name or the command used to run it
+PROCESS_NAME="gunicorn"
+
+# Find the Gunicorn master process PID
+MASTER_PID=$(pgrep -f "$PROCESS_NAME" | head -n 1)
+
+# Check if we found the PID
+# if [ -z "$MASTER_PID" ]; then
+# echo "Gunicorn master process not found. Is it running?"
+# exit 1
+# fi
+
+# Reload Gunicorn by sending SIGHUP signal to the master process
+# echo "Reloading Gunicorn (PID: $MASTER_PID)..."
+kill -HUP "$MASTER_PID"
+
+# shellcheck disable=SC2181
+if [ $? -eq 0 ]; then
+    # echo "Gunicorn reloaded successfully."
+    echo "OK"
+else
+    echo "Failed to reload Gunicorn."
+    exit 1
+fi
